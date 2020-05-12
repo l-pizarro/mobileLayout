@@ -27,9 +27,6 @@ dependencies:
   feather_icons_flutter:
     git: git://github.com/MaterialTime/feathericons.flutter.git
 
-
-  # AIzaSyCEQatD7p7jkbiHwUIySGCLXPiat4HXdUg
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
