@@ -3,6 +3,7 @@ import '../colors/Colors.dart';
 
 // Pages
 import '../pages/NewAdPage.dart';
+import '../pages/EditAdPage.dart';
 
 // Parts
 import '../parts/SideMenu.dart';
@@ -71,13 +72,20 @@ class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin
     List<Widget> _pages = [
       Center(child: Text("map", style: TextStyle(color: Colors.white))),
       Center(child: Text("list", style: TextStyle(color: Colors.white))),
-      // NewAdPage(
-      //   closeMenuFromContainer: this.closeMenuFromContainer,
-      //   onClickMenuButtonHandler: this.onClickMenuButtonHandler
-      // ),
       NewAdPage(this.closeMenuFromContainer, this.onClickMenuButtonHandler),
       Center(child: Text("favs", style: TextStyle(color: Colors.white))),
-      Center(child: Text("trendings", style: TextStyle(color: Colors.white))),
+      EditAdPage(
+        oldPrice: 290000,
+        oldCategorySelected: "Tecnología",
+        oldDescription: "Una bicicleta voladora",
+        oldHashtags: "#bici #voladora",
+        oldTitle: "Bicicleta voladora",
+        oldTypeSelected: "Venta",
+        oldUnitSelected: "la unidad",
+        oldUseLocation: true,
+        onClickMenuButtonHandler: onClickMenuButtonHandler,
+        closeMenuFromContainer: closeMenuFromContainer,
+      )
     ];
 
     return Scaffold(

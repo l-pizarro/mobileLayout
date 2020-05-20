@@ -8,20 +8,36 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import '../colors/Colors.dart';
 
-class NewAdPage extends StatefulWidget {
+class EditAdPage extends StatefulWidget {
+  final int oldPrice;
+  final String oldTypeSelected;
+  final String oldTitle;
+  final String oldCategorySelected;
+  final String oldHashtags;
+  final String oldUnitSelected;
+  final String oldDescription;
+  final bool oldUseLocation;
   final void Function() closeMenuFromContainer;
   final void Function() onClickMenuButtonHandler;
 
-  NewAdPage(
-    this.closeMenuFromContainer,
-    this.onClickMenuButtonHandler,
-  );
+  EditAdPage({
+      this.oldPrice,
+      this.oldTypeSelected,
+      this.oldTitle,
+      this.oldCategorySelected,
+      this.oldHashtags,
+      this.oldUnitSelected,
+      this.oldDescription,
+      this.oldUseLocation,
+      this.closeMenuFromContainer,
+      this.onClickMenuButtonHandler,
+  });
 
   @override
-  _NewAdPageState createState() => new _NewAdPageState();
+  _EditAdPageState createState() => new _EditAdPageState();
 }
 
-class _NewAdPageState extends State<NewAdPage> {
+class _EditAdPageState extends State<EditAdPage> {
 
   int price;
   String typeSelected;
@@ -129,7 +145,14 @@ class _NewAdPageState extends State<NewAdPage> {
   @override
   void initState() {
     super.initState();
-    unitSelected = unities[0];
+    unitSelected = widget.oldUnitSelected;
+    price = widget.oldPrice;
+    typeSelected = widget.oldTypeSelected;
+    title = widget.oldTitle;
+    categorySelected = widget.oldCategorySelected;
+    hashtags = widget.oldHashtags;
+    description = widget.oldDescription;
+    useLocation = widget.oldUseLocation;
   }
   @override
   Widget build(BuildContext context) {
@@ -220,7 +243,7 @@ class _NewAdPageState extends State<NewAdPage> {
                                 style: TextStyle(color: ThemeColors.gray[100]),
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.only(bottom: 10),
-                                  hintText: "Ingrese un título",
+                                  hintText: title,
                                   hintStyle: TextStyle(color: Colors.grey[600])
                                 ),
                                 onChanged: (value) {
@@ -304,7 +327,7 @@ class _NewAdPageState extends State<NewAdPage> {
                                 style: TextStyle(color: ThemeColors.gray[100]),
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.only(bottom: 10),
-                                  hintText: "Ej: #bueno #bonito #barato",
+                                  hintText: hashtags,
                                   hintStyle: TextStyle(color: Colors.grey[600])
                                 ),
                                 onChanged: (value) {
@@ -365,7 +388,7 @@ class _NewAdPageState extends State<NewAdPage> {
                                     style: TextStyle(color: ThemeColors.gray[100]),
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(bottom: 10),
-                                      hintText: "Ej: \$990",
+                                      hintText: "\$" + price.toString(),
                                       hintStyle: TextStyle(color: Colors.grey[600])
                                     ),
                                     onChanged: (value) {
@@ -450,7 +473,7 @@ class _NewAdPageState extends State<NewAdPage> {
                                 style: TextStyle(color: ThemeColors.gray[100]),
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(8),
-                                  hintText: "Ingrese una descripción",
+                                  hintText: description,
                                   hintStyle: TextStyle(color: Colors.grey[600])
                                 ),
                                 onChanged: (value) {
@@ -496,7 +519,7 @@ class _NewAdPageState extends State<NewAdPage> {
                             ),
                             child: Center(
                               child: Text(
-                                "Publicar anuncio",
+                                "Guardar cambios",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -531,29 +554,45 @@ class _NewAdPageState extends State<NewAdPage> {
                 width: size.width,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.035),
-                  child: InkWell(
-                    child: Container(
-                      width: size.width * 0.106,
-                      height: size.width * 0.106,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ThemeColors.gray[800],
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.4),
-                            spreadRadius: 0,
-                            blurRadius: 5,
-                          )
-                        ]
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                        child: Container(
+                          width: size.width * 0.106,
+                          height: size.width * 0.106,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ThemeColors.gray[800],
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.4),
+                                spreadRadius: 0,
+                                blurRadius: 5,
+                              )
+                            ]
+                          ),
+                          child: Icon(FeatherIcons.menu, color: ThemeColors.gray[100]),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isCollapsed = !isCollapsed;
+                          });
+                          widget.onClickMenuButtonHandler();
+                        },
                       ),
-                      child: Icon(FeatherIcons.menu, color: ThemeColors.gray[100]),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        isCollapsed = !isCollapsed;
-                      });
-                      widget.onClickMenuButtonHandler();
-                    },
+                      InkWell(
+                        onTap: () {
+                        },
+                        child: Text(
+                          "Cancelar",
+                          style: TextStyle(
+                            color: Color(0xffF56565),
+                            fontSize: 14
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -586,7 +625,7 @@ class _NewAdPageState extends State<NewAdPage> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: size.width * 0.12, vertical: size.width * 0.05),
                               child: Text(
-                                "No hemos podido publicar tu anuncio, por favor, comprueba tu conexión a internet",
+                                "No hemos podido editar tu anuncio, por favor, comprueba tu conexión a internet",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16,
