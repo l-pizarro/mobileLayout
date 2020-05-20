@@ -57,7 +57,7 @@ class _NoLocationViewState extends State<NoLocationView> {
                     textColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: size.width * 0.048),
                     child: Text(
-                      'Iniciar Sesión',
+                      'Activar ahora',
                       style: TextStyle(
                         fontSize: 24.0,
                         color: Color(0xffF4F4F4),
