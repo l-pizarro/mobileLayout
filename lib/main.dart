@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // Views
 import 'views/MainView.dart';
+import 'views/NoLocationView.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,9 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/noLocation',
       routes: {
         '/': (context) => MainView (),
+        '/noLocation': (context) => NoLocationView (),
       },
     );
   }

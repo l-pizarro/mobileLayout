@@ -12,10 +12,10 @@ class NewAdPage extends StatefulWidget {
   final void Function() closeMenuFromContainer;
   final void Function() onClickMenuButtonHandler;
 
-  NewAdPage(
+  NewAdPage({
     this.closeMenuFromContainer,
     this.onClickMenuButtonHandler,
-  );
+  });
 
   @override
   _NewAdPageState createState() => new _NewAdPageState();

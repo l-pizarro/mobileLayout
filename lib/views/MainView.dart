@@ -1,3 +1,4 @@
+import 'package:cl/pages/DeletedAdPage.dart';
 import 'package:flutter/material.dart';
 import '../colors/Colors.dart';
 
@@ -18,8 +19,9 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin {
 
-  int _pageIndex = 3;
+  int _pageIndex = 1;
   bool _isCollapsed = true;
+  bool _hasBottomBar = true;
   AnimationController _controller;
   Animation<Offset> _slideAnimation;
   Animation<double> _scaleAnimation;
@@ -70,10 +72,36 @@ class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin
     Size _screen = MediaQuery.of(context).size;
 
     List<Widget> _pages = [
+      DeletedAdPage(
+        getBack: () {
+          setState(() {
+            _pageIndex = 2;
+          });
+        },
+      ),
       Center(child: Text("map", style: TextStyle(color: Colors.white))),
-      Center(child: Text("list", style: TextStyle(color: Colors.white))),
-      NewAdPage(this.closeMenuFromContainer, this.onClickMenuButtonHandler),
-      Center(child: Text("favs", style: TextStyle(color: Colors.white))),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(child: Text("list", style: TextStyle(color: Colors.white))),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: RaisedButton(
+              color: ThemeColors.gray[400],
+              child: Text("Ver anuncio eliminado"),
+              onPressed: () {
+                setState(() {
+                  _pageIndex = 0;
+                });
+              }
+            ),
+          )
+        ],
+      ),
+      NewAdPage(
+        onClickMenuButtonHandler: onClickMenuButtonHandler,
+        closeMenuFromContainer: closeMenuFromContainer,
+      ),
       EditAdPage(
         oldPrice: 290000,
         oldCategorySelected: "Tecnología",
@@ -85,7 +113,8 @@ class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin
         oldUseLocation: true,
         onClickMenuButtonHandler: onClickMenuButtonHandler,
         closeMenuFromContainer: closeMenuFromContainer,
-      )
+      ),
+      Center(child: Text("trendings", style: TextStyle(color: Colors.white))),
     ];
 
     return Scaffold(
@@ -97,13 +126,13 @@ class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin
             slideAnimation: _slideAnimation,
             menuScaleAnimation: _menuScaleAnimation
           ),
-          pageContainer(_isCollapsed, _screen, _pages, _pageIndex)
+          pageContainer(_isCollapsed, _hasBottomBar, _screen, _pages, _pageIndex)
         ],
       ),
     );
   }
 
-  Widget pageContainer(bool isCollapsed, Size screen, List<Widget> pages, int pageIndex) {
+  Widget pageContainer(bool isCollapsed, bool hasBottomBar, Size screen, List<Widget> pages, int pageIndex) {
     return AnimatedPositioned(
       duration: _duration,
       left: isCollapsed ? 0 : 0.5 * screen.width,
@@ -117,8 +146,8 @@ class _MainViewState extends State<MainView> with SingleTickerProviderStateMixin
             width: screen.width,
             height: screen.height,
             child: Stack(children: <Widget>[
-              pages[pageIndex - 1],
-              isCollapsed
+              pages[pageIndex],
+              isCollapsed && hasBottomBar
               ? Positioned(
                 bottom: 0,
                 child: BottomNav(

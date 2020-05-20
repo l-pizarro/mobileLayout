@@ -57,7 +57,7 @@ class BottomNav extends StatelessWidget {
                 opacity: index == 4 ? 1 : 0.7,
                 child: IconButton(
                   icon: Icon(
-                    FeatherIcons.heart, 
+                    FeatherIcons.edit_3, 
                     color: index == 4 ? Colors.white : ThemeColors.purple[100]),
                   onPressed: () { onPressItem(4); }
                 ),
